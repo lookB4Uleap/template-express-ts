@@ -3,13 +3,14 @@
     "version": "1.0.0",
     "description": "",
     "main": "index.js",
-    "type": "module",
+    "typings": "index.d.ts",
     "scripts": {
         "watch": "nodemon --watch './**/*.{ts}' --exec node --experimental-specifier-resolution=node --loader ts-node/esm src/index.ts",
         "dev": "tsc-watch --onSuccess \"npm run watch\"",
         "start": "node ./dist/index.js",
         "tsc": "tsc",
-        "postinstall": "npm run tsc"
+        "postinstall": "npm run tsc",
+        "typecheck": "tsc --noEmit --skipLibCheck"
     },
     "keywords": [],
     "author": "",
