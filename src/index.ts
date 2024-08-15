@@ -1,4 +1,4 @@
-import express, { Express, Request, Response } from 'express';
+import express, { Express, NextFunction, Request, Response } from 'express';
 import 'dotenv/config'; // remember
 import cors from 'cors';
 
@@ -15,4 +15,16 @@ app.get('/', (req: Request, res: Response) => {
 
 app.listen(port, () => {
     console.log(`[server]: Server is running at http://localhost:${port}`);
+});
+
+
+app.use((err: Error, req: Request, res: Response, next: NextFunction) => {
+    console.error(err); // Log the error for debugging
+
+    if (Math.floor(res.statusCode/100) === 4)
+        res.status(res.statusCode).json({ message: err.message });
+    else if(err.name === 'JsonWebTokenError' || err.message === 'Authorization Failed')
+        res.status(401).json({message: 'Authorization Failed'});
+    else
+        res.status(500).json({message: "Internal Server Error"});
 });
